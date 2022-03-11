@@ -1,0 +1,45 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.6.0'
+}
+
+allprojects {
+    repositories {
+        maven {
+            url 'https://repo.implario.dev/public/'
+        }
+        maven {
+            url 'https://repo.implario.dev/cristalix/'
+            credentials {
+                username = project.properties["IMPLARIO_REPO_USER"] ?: System.getenv("IMPLARIO_REPO_USER")
+                password = project.properties["IMPLARIO_REPO_PASSWORD"] ?: System.getenv("IMPLARIO_REPO_PASSWORD")
+            }
+        }
+        mavenCentral()
+    }
+}
+
+apply plugin: 'kotlin'
+
+group = 'me.func'
+version = '1.0-SNAPSHOT'
+
+afterEvaluate {
+    jar {
+        archiveBaseName.set 'metaworld-core'
+        from configurations.runtimeClasspath.collect { it.directory ? it : zipTree(it) }
+        duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    }
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+    sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = '1.8'
+}
