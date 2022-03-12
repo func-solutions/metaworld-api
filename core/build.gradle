@@ -23,6 +23,7 @@ dependencies {
     compileOnly 'cristalix:dark-paper:21.02.03'
     compileOnly 'dev.xdark:feder:1.0-SNAPSHOT'
 
+    implementation 'dev.implario.games5e:bukkit-worker-core:2.1.20'
     implementation 'dev.implario.bukkit:bukkit-tools:4.4.12'
     implementation 'dev.implario.bukkit:kotlin-api:1.0.0'
     implementation 'dev.implario.bukkit:dark-paper:1.0.0'

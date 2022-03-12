@@ -20,6 +20,6 @@ data class Allocation(
     val updatePackets: Collection<Packet<PacketListenerPlayOut>>? = null,
     val removePackets: Collection<Packet<PacketListenerPlayOut>>? = null,
     val allocatedBlocks: List<Location>? = null,
-    val min: V3? = null,
-    val max: V3? = null
+    val min: V3,
+    val max: V3
 )

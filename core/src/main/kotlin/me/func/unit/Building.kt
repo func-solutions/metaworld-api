@@ -23,6 +23,8 @@ data class Building(
     var relativeZ: Double,
     @Transient val box: Box? = null, // Коробка прототипа постройки
     @Transient var allocation: Allocation? = null, // Объект размещенный фантомной постройки
+    @Transient var onClick: Building.(Player, PacketPlayInUseItem) -> Unit = { _, _ -> }, // Обработчик нажатия по локации
+    @Transient var onBreak: Building.(Player, PacketPlayInBlockDig) -> Unit = { _, _ -> } // Обработчик ломания блока
 ) {
 
     init {
@@ -38,6 +40,22 @@ data class Building(
         0.0, 0.0, 0.0,
         world.getBox(category, tag)
     )
+
+    // Проверить есть ли данная точка в рамках данной постройки
+    fun isInside(x: Double, y: Double, z: Double): Boolean {
+        if (allocation == null)
+            return false
+
+        return x >= allocation!!.min.x && x <= allocation!!.max.x &&
+                y >= allocation!!.min.y && y <= allocation!!.max.y &&
+                z >= allocation!!.min.z && z <= allocation!!.max.z
+    }
+
+    // Добавить обработчик нажатия на постройку
+    fun onClick(handler: Building.(Player, PacketPlayInUseItem) -> Unit) = apply { onClick = handler }
+
+    // Добавить обработчик ломания блока постройки
+    fun onBreak(handler: Building.(Player, PacketPlayInBlockDig) -> Unit) = apply { onBreak = handler }
 
     // Стереть размещенную постройку из данного объекта (не убирает у игрока)
     fun deallocate() {
@@ -108,19 +126,16 @@ data class Building(
                     // Получаем тип блока и выносим в удобный объект
                     val blockPos = dst.position()
                     val chunkPos = ChunkCoordIntPair(blockPos)
-                    val data = applyColor(nmsWorld.getType(source.position()), color)
+                    val data = applyColor(nmsWorld.getType(source.x, source.y, source.z), color)
 
                     // Вычисление отступов
                     val xOffset = blockPos.x - (blockPos.x shr 4) * 16
-                    val yOffset = blockPos.y
                     val zOffset = blockPos.z - (blockPos.z shr 4) * 16
-
-                    val offset =
-                        (((xOffset and 0xF) shl 12) or ((yOffset and 0xFF) % 256) or ((zOffset and 0xFF) shl 8)).toShort()
-                    val blockData = BlockDataUnit(offset, data)
+                    val summaryOffset =
+                        (((xOffset and 0xF) shl 12) or ((blockPos.y and 0xFF) % 256) or ((zOffset and 0xFF) shl 8)).toShort()
 
                     // Запись блока в буффер
-                    chunkMap.computeIfAbsent(chunkPos) { ArrayList() }.add(blockData)
+                    chunkMap.computeIfAbsent(chunkPos) { ArrayList() }.add(BlockDataUnit(summaryOffset, data))
                     allocated.add(dst)
                     blocks[blockPos] = data
                 }
