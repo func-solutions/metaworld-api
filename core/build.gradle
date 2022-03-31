@@ -1,3 +1,10 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+apply plugin: 'org.jetbrains.kotlin.jvm'
+apply plugin: 'maven-publish'
 apply plugin: 'kotlin'
 
 group = 'me.func'
@@ -17,17 +24,41 @@ compileKotlin {
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.0'
-
+    compileOnly 'org.jetbrains.kotlin:kotlin-stdlib:1.6.0'
     compileOnly 'cristalix:bukkit-core:21.01.30'
     compileOnly 'cristalix:dark-paper:21.02.03'
     compileOnly 'dev.xdark:feder:1.0-SNAPSHOT'
+    compileOnly 'dev.implario.games5e:bukkit-worker-core:2.1.20'
+    compileOnly 'dev.implario.bukkit:bukkit-tools:4.4.12'
+    compileOnly 'dev.implario.bukkit:kotlin-api:1.0.0'
+    compileOnly 'dev.implario.bukkit:dark-paper:1.0.0'
+    compileOnly 'ru.cristalix:games5e-integration:1.3.23'
+}
 
-    implementation 'dev.implario.games5e:bukkit-worker-core:2.1.20'
-    implementation 'dev.implario.bukkit:bukkit-tools:4.4.12'
-    implementation 'dev.implario.bukkit:kotlin-api:1.0.0'
-    implementation 'dev.implario.bukkit:dark-paper:1.0.0'
-    implementation 'ru.cristalix:games5e-integration:1.3.23'
+publishing {
+    repositories {
+        maven {
+            name 'func'
+            url 'https://repo.implario.dev/cristalix'
+            credentials {
+                username System.getenv('IMPLARIO_REPO_USER')
+                password System.getenv('IMPLARIO_REPO_PASSWORD')
+            }
+        }
+    }
+    def p = project
+    publications {
+        create(p.name, MavenPublication) {
+            it.groupId = 'me.func'
+            it.artifactId = 'metaworld-api'
+            it.version = 'live-SNAPSHOT'
+            it.artifact p.tasks.jar
+        }
+    }
+}
+
+jar {
+    from configurations.runtimeClasspath.collect { it.directory ? it : zipTree(it) }
 }
 
 afterEvaluate {
