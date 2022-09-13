@@ -9,16 +9,17 @@
 repositories {
     mavenCentral()
     maven {
-        url 'https://repo.implario.dev/cristalix/'
+        url 'https://repo.c7x.dev/repository/maven-public/'
         credentials {
-            username = System.getenv("IMPLARIO_REPO_USER")
-            password = System.getenv("IMPLARIO_REPO_PASSWORD")
+            username System.getenv("CRI_REPO_LOGIN")
+            password System.getenv("CRI_REPO_PASSWORD")
         }
     }
 }
 
 dependencies {
-    implementation 'me.func:metaworld-api:live-SNAPSHOT'
+    implementation 'me.func:metaworld-api:1.0.0' // сама библиотека
+    implementation 'me.func:world-api:1.0.6' // нужная зависимость для мила
 }
 ```
 
@@ -33,12 +34,8 @@ dependencies {
 Так же, центрируем локацию, чтобы не было криво.
 
 ```kotlin
-    private val map = WorldMeta(MapLoader.load("func", "test"))
-    val spawn: Label = map.getLabel("spawn").apply {
-        x += 0.5
-        z += 0.5
-        yaw = -90f
-    }
+    private val map = MapLoader.load("func", "test")
+    val spawn: Label = map.label("spawn", 0.5, 0.0, 0.5)
 
     var list = mutableListOf<Building>()
 ```
@@ -107,11 +104,7 @@ fun create(): List<Building> {
 class Test : JavaPlugin() {
     
     private val map = WorldMeta(MapLoader.load("func", "test"))
-    val spawn: Label = map.getLabel("spawn").apply {
-        x += 0.5
-        z += 0.5
-        yaw = -90f
-    }
+    val spawn: Label = map.label("spawn", 0.5, 0.0, 0.5)
     
     var list = mutableListOf<Building>()
 

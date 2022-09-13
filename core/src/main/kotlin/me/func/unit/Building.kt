@@ -1,10 +1,8 @@
 package me.func.unit
 
-import dev.implario.bukkit.world.Box
-import dev.implario.bukkit.world.V3
-import dev.implario.games5e.sdk.cristalix.WorldMeta
 import me.func.MetaWorld.storage
 import me.func.core.AIR_DATA
+import me.func.world.*
 import net.minecraft.server.v1_12_R1.*
 import org.bukkit.Location
 import org.bukkit.Material
@@ -12,6 +10,8 @@ import org.bukkit.craftbukkit.v1_12_R1.CraftWorld
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
 import ru.cristalix.core.formatting.Color
+import ru.cristalix.core.math.V3
+import ru.cristalix.core.util.UtilV3
 import java.util.*
 
 data class Building(
@@ -86,15 +86,15 @@ data class Building(
 
         val blocks = mutableMapOf<BlockPosition, IBlockData?>()
         val allocated = mutableListOf<Location>()
-        val nmsWorld = (box.world as CraftWorld).handle
-        val absoluteOrigin: V3 = V3.of(origin.x, origin.y, origin.z)
+        val nmsWorld = box.world.handle
+        val absoluteOrigin = V3(origin.x, origin.y, origin.z)
 
         relativeX = origin.x
         relativeY = origin.y
         relativeZ = origin.z
 
-        var relativeOrigin: V3 = box.dimensions.multiply(0.5)
-        relativeOrigin = relativeOrigin.withY(0.0)
+        var relativeOrigin: V3 = box.dimensions.mult(0.5)
+        relativeOrigin = relativeOrigin.apply { y = 0.0 }
 
         var minX = Int.MAX_VALUE
         var minY = Int.MAX_VALUE
@@ -166,8 +166,8 @@ data class Building(
         // Создание аллокации постройки и заготовка пакетов с данными
         allocation = Allocation(
             origin, blocks, updatePackets, removePackets, allocated,
-            V3.of(minX.toDouble(), minY.toDouble(), minZ.toDouble()),
-            V3.of(maxX.toDouble(), maxY.toDouble(), maxZ.toDouble())
+            V3(minX.toDouble(), minY.toDouble(), minZ.toDouble()),
+            V3(maxX.toDouble(), maxY.toDouble(), maxZ.toDouble())
         )
     }
 }

@@ -1,11 +1,11 @@
 package me.func.unit
 
-import dev.implario.bukkit.world.V3
 import net.minecraft.server.v1_12_R1.BlockPosition
 import net.minecraft.server.v1_12_R1.IBlockData
 import net.minecraft.server.v1_12_R1.Packet
 import net.minecraft.server.v1_12_R1.PacketListenerPlayOut
 import org.bukkit.Location
+import ru.cristalix.core.math.V3
 
 // Единица относительного блока с данными
 internal class BlockDataUnit(
