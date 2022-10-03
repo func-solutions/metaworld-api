@@ -7,7 +7,7 @@ import java.util.*
 class MetaSubscriber {
 
     // Модификаторы чанков
-    private var modifiers = mutableListOf<(MutableChunk) -> MutableChunk>()
+    private var modifiers = arrayListOf<(MutableChunk) -> MutableChunk>()
 
     // Удобный метод для настройки обработки списка построек
     fun buildingLoader(accepter: (UUID) -> List<Building>) = customModifier { chunk ->

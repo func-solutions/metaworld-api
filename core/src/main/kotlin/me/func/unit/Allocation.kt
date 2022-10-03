@@ -16,7 +16,7 @@ internal class BlockDataUnit(
 // Форма размещенного фантомного построения
 data class Allocation(
     val origin: Location? = null,
-    val blocks: MutableMap<BlockPosition, IBlockData?>? = null,
+    val blocks: HashMap<BlockPosition, IBlockData?>? = null,
     val updatePackets: Collection<Packet<PacketListenerPlayOut>>? = null,
     val removePackets: Collection<Packet<PacketListenerPlayOut>>? = null,
     val allocatedBlocks: List<Location>? = null,

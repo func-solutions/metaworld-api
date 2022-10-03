@@ -84,8 +84,8 @@ data class Building(
     fun allocate(origin: Location, color: Color? = null) {
         if (box == null) throw RuntimeException("$category/$tag allocation failed! No box assigned")
 
-        val blocks = mutableMapOf<BlockPosition, IBlockData?>()
-        val allocated = mutableListOf<Location>()
+        val blocks = hashMapOf<BlockPosition, IBlockData?>()
+        val allocated = arrayListOf<Location>()
         val nmsWorld = box.world.handle
         val absoluteOrigin = V3(origin.x, origin.y, origin.z)
 
@@ -114,8 +114,7 @@ data class Building(
                     val dst = box.transpose(absoluteOrigin, origin.orientation(), relativeOrigin, x, y, z)
                     val source = Location(box.world, x.toDouble(), y.toDouble(), z.toDouble())
 
-                    // Нам интересны все блоки, но не воздух
-                    if (source.block.type == Material.AIR) continue
+                    // Нам интересны все блоки
                     if (minX > dst.blockX) minX = dst.blockX
                     if (minY > dst.blockY) minY = dst.blockY
                     if (minZ > dst.blockZ) minZ = dst.blockZ
@@ -142,8 +141,8 @@ data class Building(
             }
         }
         // Создание списков с пакетами для создания/удаления постройки
-        val updatePackets = mutableListOf<Packet<PacketListenerPlayOut>>()
-        val removePackets = mutableListOf<Packet<PacketListenerPlayOut>>()
+        val updatePackets = arrayListOf<Packet<PacketListenerPlayOut>>()
+        val removePackets = arrayListOf<Packet<PacketListenerPlayOut>>()
 
         // Перебор чанков для создания пакетов с чанками
         for (entry in chunkMap.entries) {

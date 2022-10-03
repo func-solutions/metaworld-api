@@ -4,11 +4,12 @@ import me.func.MetaWorld.storage
 import me.func.player.PlayerBuildings
 import org.bukkit.entity.Player
 import java.util.*
+import kotlin.collections.HashMap
 
 // Утилита хранящая модификаторы чанков игроков
 object ChunkModifyManager {
 
-    private val players: MutableMap<UUID, List<(MutableChunk) -> MutableChunk>> = mutableMapOf()
+    private val players: HashMap<UUID, List<(MutableChunk) -> MutableChunk>> = hashMapOf()
 
     // Добавить модификатор для игрока
     fun subscribe(player: Player, action: (MutableChunk) -> MutableChunk) = subscribe(player.uniqueId, action)

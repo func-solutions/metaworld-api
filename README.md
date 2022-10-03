@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'me.func:metaworld-api:1.0.0' // сама библиотека
+    implementation 'me.func:metaworld-api:1.0.1' // сама библиотека
     implementation 'me.func:world-api:1.0.6' // нужная зависимость для мила
 }
 ```
