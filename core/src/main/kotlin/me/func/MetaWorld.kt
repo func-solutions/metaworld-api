@@ -21,6 +21,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
+import kotlin.collections.ArrayList
 
 object MetaWorld : Listener {
 
@@ -28,7 +29,7 @@ object MetaWorld : Listener {
     val provided: JavaPlugin = JavaPlugin.getProvidingPlugin(this.javaClass)
 
     // Обработчики чанков при регистрации
-    var chunkContributer = mutableListOf<(MutableChunk) -> MutableChunk>()
+    var chunkContributer = arrayListOf<(MutableChunk) -> MutableChunk>()
 
     // UUID - список построек, не для пользователя - разработчика
     val storage = hashMapOf<UUID, PlayerBuildings>()
@@ -52,7 +53,7 @@ object MetaWorld : Listener {
     @JvmStatic
     fun registerModifiers(vararg accepter: (MutableChunk) -> MutableChunk) {
         Bukkit.getPluginManager().registerEvents(this, provided)
-        chunkContributer = accepter.toMutableList()
+        chunkContributer = ArrayList(accepter.toList())
     }
 
     @EventHandler

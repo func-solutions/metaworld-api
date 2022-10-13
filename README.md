@@ -1,7 +1,7 @@
-# metaworld-core
+# metaworld-api
 Ядро для мультимиров, один мир - куча игроков!
 
-## Подключение metaworld-core
+## Подключение metaworld-api
 Для того чтобы использовать metaworld, нам всего лишь
 нужно добавить зависимость в BuildScript (build.gradle)
 
@@ -18,12 +18,12 @@ repositories {
 }
 
 dependencies {
-    implementation 'me.func:metaworld-api:1.0.1' // сама библиотека
+    implementation 'me.func:metaworld-api:1.0.2' // сама библиотека
     implementation 'me.func:world-api:1.0.6' // нужная зависимость для мила
 }
 ```
 
-## Использование metaworld-core
+## Использование metaworld-api
 
 Создадим класс, в котором сделаем примитивное использование
 `metaworld-core`.
@@ -79,7 +79,7 @@ fun create(): List<Building> {
         }
 ```
 
-`Разберём, инициализацию metaworld-core:`
+`Разберём, инициализацию metaworld-api:`
 
 Через Metaworld#universe, мы показываем, в каком мире это будет работать, какие могут быть
 модификаторы чанка и сразу создаем их. Завершаем создание модификаторов методом #build
