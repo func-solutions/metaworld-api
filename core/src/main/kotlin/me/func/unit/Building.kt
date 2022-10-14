@@ -81,7 +81,8 @@ data class Building(
     fun hide(vararg players: Player) = changeState(players) { it?.removePackets }
 
     // Метод размещения постройки на указанных координатах (можно перекрасить блоки)
-    fun allocate(origin: Location, color: Color? = null) {
+    @JvmOverloads
+    fun allocate(origin: Location, replace: Boolean = false, color: Color? = null) {
         if (box == null) throw RuntimeException("$category/$tag allocation failed! No box assigned")
 
         val blocks = hashMapOf<BlockPosition, IBlockData?>()
@@ -114,7 +115,9 @@ data class Building(
                     val dst = box.transpose(absoluteOrigin, origin.orientation(), relativeOrigin, x, y, z)
                     val source = Location(box.world, x.toDouble(), y.toDouble(), z.toDouble())
 
-                    // Нам интересны все блоки
+                    // Нам интересны все блоки, но не воздух
+                    if (source.block.type == Material.AIR && !replace) continue
+
                     if (minX > dst.blockX) minX = dst.blockX
                     if (minY > dst.blockY) minY = dst.blockY
                     if (minZ > dst.blockZ) minZ = dst.blockZ

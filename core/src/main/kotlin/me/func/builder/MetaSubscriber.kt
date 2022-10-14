@@ -12,7 +12,7 @@ class MetaSubscriber {
     // Удобный метод для настройки обработки списка построек
     fun buildingLoader(accepter: (UUID) -> List<Building>) = customModifier { chunk ->
         accepter(chunk.owner)
-            .filter { it.box != null }
+            .filter { it.box != null && it.owner == chunk.owner }
             .mapNotNull { it.allocation }
             .forEach {
                 it.blocks
