@@ -8,7 +8,7 @@ val AIR_DATA: IBlockData = Block.getById(0).getBlockData()
 // Класс Unit чанка, которой хранит сам чанк, пакет для отправки и список измененных блоков
 class MutableChunk(val owner: UUID, val chunk: Chunk) {
     private val modified: MutableList<BlockPosition> = arrayListOf()
-    private var readyPacket: PacketPlayOutMapChunk? = null
+    var readyPacket: PacketPlayOutMapChunk? = null
 
     // Метод для изменения блока в чанке
     fun modify(position: BlockPosition, blockData: IBlockData?): MutableChunk {

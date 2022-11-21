@@ -16,7 +16,7 @@ object ChunkModifyManager {
 
     fun subscribe(uuid: UUID, vararg action: (MutableChunk) -> MutableChunk) {
         players[uuid] = action.toList()
-        storage[uuid] = PlayerBuildings(uuid, mutableListOf())
+        storage[uuid] = PlayerBuildings(uuid, hashSetOf())
     }
 
     // Убрать модификатор игрока

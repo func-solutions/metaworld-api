@@ -11,7 +11,6 @@ import net.minecraft.server.v1_12_R1.PacketPlayInBlockDig
 import net.minecraft.server.v1_12_R1.PacketPlayInUseItem
 import net.minecraft.server.v1_12_R1.World
 import org.bukkit.Bukkit
-import org.bukkit.GameMode
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
 import org.bukkit.entity.Player

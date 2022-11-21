@@ -15,7 +15,7 @@ import ru.cristalix.core.util.UtilV3
 import java.util.*
 
 data class Building(
-    val owner: UUID, // Владелец постройки
+    var owner: UUID, // Владелец постройки
     val category: String, // Категория постройки (для поиска)
     val tag: String, // Тэг постройки для уточнения
     var relativeX: Double, // Относительные координаты для хранения
