@@ -167,7 +167,7 @@ data class Building(
 
         // Создание аллокации постройки и заготовка пакетов с данными
         allocation = Allocation(
-            origin, blocks, updatePackets, removePackets, allocated,
+            origin, blocks, updatePackets, removePackets,
             V3(minX.toDouble(), minY.toDouble(), minZ.toDouble()),
             V3(maxX.toDouble(), maxY.toDouble(), maxZ.toDouble())
         )
